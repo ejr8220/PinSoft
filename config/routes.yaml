@@ -1,0 +1,10 @@
+procesar:
+    type: rest
+    resource: App\Controller\GeneralWSController
+#    controller: App\Controller\DefaultController::index
+
+procesarInventario:
+    type: rest
+    resource: App\Controller\InventariosWSController
+
+
