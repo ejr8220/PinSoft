@@ -1,0 +1,68 @@
+<?php
+
+class paisService{
+    public function setDependencies(\Symfony\Component\DependencyInjection\ContainerInterface $container) 
+    {
+
+    }
+
+    public function pais($arrayParametros)
+    {
+        try
+        {
+            if (!$arrayParametros['action'])
+            {
+                 throw new Exception("no se ha especificado la opción", 206);
+            }
+
+            $strAction = $arrayParametros['action'];
+
+            switch ($strAction)
+            {
+                case 'create':
+                    $this->createPais($arrayParametros);
+                    break;
+                case 'read':
+                   $this->readPais($arrayParametros);
+                    break;
+                case 'update':
+                    $this->updatePais($arrayParametros);
+                    break;
+                case 'delete':
+                    $this->deletePais($arrayParametros);
+                    break;
+                default:
+                   break;
+            }
+        } 
+        catch (\Exception $ex)
+        {
+             throw $ex;
+        }
+    }
+
+    public function createPais($arrayParametros)
+    {
+        $entityPais = new Pais();
+        $entityPais->setCodigo(593);
+        $entityPais->setIso2('Ec');
+        $entityPais->setIso3('Ecu');
+        $entityPais->setNombrePais('Ecuador');
+        return $entityPais;
+    }
+
+    public function replacePais($arrayParametros)
+    {
+        return true;
+    }
+
+    public function updatePais($arrayParametros)
+    {
+        return true;
+    }
+
+    public function deletePais($arrayParametros)
+    {
+        return true;
+    }
+}

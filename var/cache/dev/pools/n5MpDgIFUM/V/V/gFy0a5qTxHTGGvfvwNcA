@@ -1,0 +1,36 @@
+<?php
+
+namespace Symfony\Component\VarExporter\Internal;
+
+return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
+    $o = [
+        clone (($p = &Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? Registry::p('Doctrine\\ORM\\Mapping\\Column')),
+        clone ($p['Doctrine\\ORM\\Mapping\\Id'] ?? Registry::p('Doctrine\\ORM\\Mapping\\Id')),
+        clone ($p['Doctrine\\ORM\\Mapping\\GeneratedValue'] ?? Registry::p('Doctrine\\ORM\\Mapping\\GeneratedValue')),
+        clone ($p['Doctrine\\ORM\\Mapping\\SequenceGenerator'] ?? Registry::p('Doctrine\\ORM\\Mapping\\SequenceGenerator')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'ID_PAIS',
+            ],
+            'type' => [
+                'integer',
+            ],
+            'strategy' => [
+                2 => 'SEQUENCE',
+            ],
+            'sequenceName' => [
+                3 => '"General".SEQ_PAIS',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+        $o[2],
+        $o[3],
+    ],
+    []
+);
