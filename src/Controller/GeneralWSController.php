@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Service\PaisService;
 
 
-   /**
+   /**1
     * @Rest\RouteResource(
     *     "General",
     *     pluralize=false
