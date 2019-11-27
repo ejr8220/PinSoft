@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Service\PaisService;
 
 
-   /**
+   /** Geampiere
     * @Rest\RouteResource(
     *     "Inventarios",
     *     pluralize=false
