@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Pais;
+use App\Entity\Precios;
+use App\Entity\Imagenes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,10 +12,12 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\PaisService;
+use App\Service\PreciosService;
+use App\Service\ImagenesService;
 
 
-   /**1
+
+   /**
     * @Rest\RouteResource(
     *     "General",
     *     pluralize=false
@@ -23,17 +26,20 @@ use App\Service\PaisService;
 class GeneralWSController extends FOSRestController implements ClassResourceInterface
 
 {
-    private $paisService;
-    public function __construct(PaisService $servicePais)
+    private $PreciosService;
+    private $ImagenesService;
+    public function __construct(PreciosService $servicePrecios, ImagenesService $serviceImagenes)
     {
         
-        $this->paisService = $servicePais;
+        $this->PreciosService = $servicePrecios;
+        $this->ImagenesService = $serviceImagenes;
+        
     }
     
 
     public function postAction(Request $objRequest)
     {
-    
+        var_dump("llego");    
 
         $arrayRequest = json_decode($objRequest->getContent(), true);
         $strOp = $arrayRequest['op'];
@@ -42,15 +48,24 @@ class GeneralWSController extends FOSRestController implements ClassResourceInte
         {
             switch ($strOp)
             {
-                case 'pais':
-                    
-                    $arrayRespuesta = $this->paisService->mainPais($arrayRequest['data']);
+                case 'precios':
+                    var_dump("Entró al case");
+                    $arrayRespuesta = $this->PreciosService->mainPrecios($arrayRequest['data']);
                     $arrayResponse['statusCode'] = 200;
                     $arrayResponse['message']    = "OK";
                     $arrayResponse["data"]       = $arrayRespuesta;
                     
     
                     break;
+                    case 'imagenes':
+                        var_dump("Entró al case");
+                        $arrayRespuesta = $this->ImagenesService->mainImagenes($arrayRequest['data']);
+                        $arrayResponse['statusCode'] = 200;
+                        $arrayResponse['message']    = "OK";
+                        $arrayResponse["data"]       = $arrayRespuesta;
+                        
+        
+                        break;
                 
                 default:
                     # code...
