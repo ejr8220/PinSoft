@@ -94,14 +94,22 @@ class PaisService
             {
                throw new Exception("Pais ya ha sido ingresado", 206);
             }
-            $entityPais = new Pais();
-            $entityPais->setCodigo($arrayParametros['codigo']);
-            $entityPais->setIso2($arrayParametros['iso2']);
-            $entityPais->setIso3($arrayParametros['iso3']);
-            $entityPais->setNombrePais($arrayParametros['nombrePais']);
-            $entityPais->setEstado($arrayParametros['estado']);
-            $this->emManager->persist($entityPais);
-            $this->emManager->flush();
+            $strError = $this.validaPais($arrayParametros);
+            if (empty($strError))
+            {
+                $entityPais = new Pais();
+                $entityPais->setCodigo($arrayParametros['codigo']);
+                $entityPais->setIso2($arrayParametros['iso2']);
+                $entityPais->setIso3($arrayParametros['iso3']);
+                $entityPais->setNombrePais($arrayParametros['nombrePais']);
+                $entityPais->setEstado($arrayParametros['estado']);
+                $this->emManager->persist($entityPais);
+                $this->emManager->flush();    
+            } 
+            else
+            {
+                throw new Exception($strError, 206);
+            }
         }
         catch (Exception $ex)
         {
@@ -113,7 +121,6 @@ class PaisService
     public function readPais($arrayParametros)
     {   
         try {
-            //$entityPaises = $this->emManager->getRepository(Pais::class)->findAll();
             $arrayPais = array();
 
             $entityPaises = $this->emManager->getRepository(Pais::class)->getPaises($arrayParametros);
@@ -127,6 +134,7 @@ class PaisService
         } 
         catch (Exception $ex) 
         {
+            var_dump($ex->getMessage());
             throw $ex;
         }
         return $arrayPais;
@@ -178,5 +186,36 @@ class PaisService
             throw $ex;
         }
         return array("messageUser" => "Pais Eliminado de manera exitosa!!!");
+    }
+
+    public function validaPais($arrayParametros)
+    {
+        $strError = "";
+        try
+        {
+            if (!$arrayParametros["codigo"])
+            {
+                $strError = "Debe Definir el campo código";
+            }
+            if (empty($strError) && (is_null($arrayParametros["codigo"]) || empty($arrayParametros["codigo"])))
+            {
+                $strError = "Código no puede ser blanco o nulo";
+            }
+
+            if (!empty($strError) && (is_null($arrayParametros["iso2"]) || emptty($arrayParametros["iso2"])))
+            {
+                $strError = "Iso2 no puede ser blanco o nulo";
+            }
+            if (!empty($strError) && (is_null($arrayParametros["nombrePais"]) || empty($arrayParametros["nombrePais"])))
+            {
+                $strError = "Nombre del pais no puede ser blanco o nulo";
+            }
+        }
+        catch(Exception $ex)
+        {
+            $strError = "Error inesperado";
+            //throw new Exception($ex->getMessage());
+        }
+        return $strError;
     }
 }
