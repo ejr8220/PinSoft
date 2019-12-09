@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Service\PaisService;
 
 
-   /**1
+   /**
     * @Rest\RouteResource(
     *     "General",
     *     pluralize=false
@@ -58,10 +58,12 @@ class GeneralWSController extends FOSRestController implements ClassResourceInte
             }
         } 
         catch (\Exception $ex) {
-            //throw $th;
+            $arrayResponse['statusCode'] = 500;
+            $arrayResponse['message']    = $ex->getMessage();
+            $arrayResponse['data']       = null;
         }
 
-
+        
         $response = new Response();
     
         $response->setContent(json_encode($arrayResponse));
